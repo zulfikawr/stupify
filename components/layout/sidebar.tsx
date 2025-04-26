@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -19,9 +20,14 @@ import { Button } from "@/components/ui/button";
 import { usePlaylistsData } from "@/hooks/use-playlists-data";
 
 export function Sidebar() {
+  const { status } = useSession();
   const pathname = usePathname();
   const { playlists, isLoading } = usePlaylistsData();
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  if (status === "unauthenticated") {
+    return null;
+  }
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);

@@ -7,6 +7,7 @@ import { AuthProvider } from "@/components/auth-provider";
 import { SpotifyProvider } from "@/components/spotify-provider";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { Header } from "@/components/layout/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,8 +34,9 @@ export default function RootLayout({
             <SpotifyProvider>
               <div className="relative flex h-screen">
                 <Sidebar />
-                <main className="flex-1 overflow-y-auto pb-16 md:pb-0">
-                  {children}
+                <main className="flex-1 overflow-y-auto pb-16 md:pb-0 bg-transparent">
+                  <Header />
+                  <div>{children}</div>
                 </main>
                 <MobileNav />
               </div>

@@ -1,11 +1,17 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Home, Search, Library } from "lucide-react";
 
 export function MobileNav() {
+  const { status } = useSession();
   const pathname = usePathname();
+
+  if (status === "unauthenticated") {
+    return null;
+  }
 
   return (
     <div className="fixed md:hidden bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 z-50">
