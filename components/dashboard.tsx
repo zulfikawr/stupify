@@ -1,7 +1,8 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { MainContent } from "@/components/layout/main-content";
+import { HomeView } from "./views/home-view";
+import { ScrollArea } from "./ui/scroll-area";
 
 export default function Dashboard() {
   const { data: session } = useSession();
@@ -10,5 +11,11 @@ export default function Dashboard() {
     return null;
   }
 
-  return <MainContent />;
+  return (
+    <ScrollArea className="flex-1 bg-gradient-to-b from-zinc-800 to-black">
+      <div className="p-6">
+        <HomeView />
+      </div>
+    </ScrollArea>
+  );
 }

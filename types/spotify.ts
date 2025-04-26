@@ -208,3 +208,26 @@ export interface PlaylistResponse {
     spotify: string;
   };
 }
+
+export interface SpotifySearchResponse {
+  tracks?: {
+    href: string;
+    items: SpotifyTrack[];
+    total: number;
+  };
+  albums?: {
+    href: string;
+    items: SpotifyAlbum[];
+    total: number;
+  };
+  artists?: {
+    href: string;
+    items: SpotifyArtist[];
+    total: number;
+  };
+  playlists?: {
+    href: string;
+    items: PlaylistItem[];
+    total: number;
+  };
+}

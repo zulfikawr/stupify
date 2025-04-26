@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Clock, Play } from "lucide-react";
+import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -99,7 +99,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
               <TableHead className="text-zinc-400">Album</TableHead>
               <TableHead className="text-zinc-400">Date added</TableHead>
               <TableHead className="text-right text-zinc-400">
-                <Clock className="h-4 w-4" />
+                Duration
               </TableHead>
             </TableRow>
           </TableHeader>

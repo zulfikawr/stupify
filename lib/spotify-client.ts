@@ -9,6 +9,7 @@ import type {
   SpotifyTrack,
   SpotifyArtist,
   TopArtistsResponse,
+  SpotifySearchResponse,
 } from "@/types/spotify";
 import { saveTokensToFirebase, getTokensFromFirebase } from "@/lib/firebase";
 import { SpotifyUser } from "./auth";
@@ -210,6 +211,22 @@ export class SpotifyClient {
 
   async getProfile(): Promise<SpotifyUser> {
     return this.fetch("/me");
+  }
+
+  async search(
+    query: string,
+    types: ("track" | "album" | "artist" | "playlist")[] = [
+      "track",
+      "album",
+      "artist",
+    ],
+    limit = 20,
+  ): Promise<SpotifySearchResponse> {
+    const typeParam = types.join(",");
+    const encodedQuery = encodeURIComponent(query);
+    return this.fetch<SpotifySearchResponse>(
+      `/search?q=${encodedQuery}&type=${typeParam}&limit=${limit}`,
+    );
   }
 }
 
