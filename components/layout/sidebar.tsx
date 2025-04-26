@@ -9,15 +9,15 @@ import {
   Home,
   Search,
   Library,
-  Plus,
-  Heart,
   ChevronRight,
   ChevronLeft,
+  Receipt,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { usePlaylistsData } from "@/hooks/use-playlists-data";
+import { truncateText } from "@/lib/utils";
 
 export function Sidebar() {
   const { status } = useSession();
@@ -35,7 +35,7 @@ export function Sidebar() {
 
   return (
     <div
-      className={`hidden md:flex h-full flex-col bg-gradient-to-b from-zinc-900 to-zinc-800 text-zinc-200 transition-all duration-300 ease-in-out ${
+      className={`hidden md:flex h-full flex-col bg-zinc-900 text-zinc-200 transition-all duration-300 ease-in-out ${
         isCollapsed ? "w-20" : "w-60"
       } shadow-xl`}
     >
@@ -115,29 +115,23 @@ export function Sidebar() {
             {!isCollapsed && <span className="truncate">Your Library</span>}
           </div>
         </Link>
-      </nav>
-      {!isCollapsed && (
-        <div className="mt-6 px-3">
-          <div className="space-y-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-start text-zinc-300 hover:text-white hover:bg-zinc-700 rounded-lg"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              Create Playlist
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-start text-zinc-300 hover:text-white hover:bg-zinc-700 rounded-lg"
-            >
-              <Heart className="mr-2 h-4 w-4" />
-              Liked Songs
-            </Button>
+        <Link
+          href="/receipt"
+          className={`flex rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+            isCollapsed ? "justify-center" : ""
+          } ${
+            pathname === "/receipt"
+              ? "bg-zinc-700 text-white"
+              : "hover:bg-zinc-700 hover:text-white"
+          }`}
+          title={isCollapsed ? "Your Receipt" : ""}
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <Receipt className="h-5 w-5 flex-shrink-0" />
+            {!isCollapsed && <span className="truncate">Your Receipt</span>}
           </div>
-        </div>
-      )}
+        </Link>
+      </nav>
       <Separator className="my-4 bg-zinc-700" />
       <ScrollArea className="flex-1 px-3">
         <div className="space-y-1 pb-4">
@@ -176,10 +170,10 @@ export function Sidebar() {
                     {!isCollapsed && (
                       <div className="min-w-0">
                         <p className="truncate font-medium text-zinc-100">
-                          {playlist.name}
+                          {truncateText(playlist.name, 20)}
                         </p>
                         <p className="truncate text-xs text-zinc-400">
-                          {playlist.description ||
+                          {truncateText(playlist.description, 25) ||
                             `By ${playlist.owner.display_name || "Spotify"}`}
                         </p>
                       </div>

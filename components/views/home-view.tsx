@@ -3,9 +3,7 @@
 import { useSession } from "next-auth/react";
 import { NowPlaying } from "@/components/now-playing/now-playing";
 import { RecentlyPlayed } from "@/components/history/recently-played";
-import { TopArtists } from "@/components/top-statistics/top-artists";
-import { TopTracks } from "@/components/top-statistics/top-tracks";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Statistics } from "@/components/statistics/statistics";
 
 export function HomeView() {
   const { data: session } = useSession();
@@ -20,26 +18,9 @@ export function HomeView() {
 
       <NowPlaying />
 
-      <div>
-        <h2 className="mb-4 text-2xl font-bold text-white">Recently Played</h2>
-        <RecentlyPlayed />
-      </div>
+      <RecentlyPlayed />
 
-      <div>
-        <h2 className="mb-4 text-2xl font-bold text-white">Statistics</h2>
-        <Tabs defaultValue="artists">
-          <TabsList className="bg-zinc-800 grid grid-cols-2 md:flex md:w-fit">
-            <TabsTrigger value="artists">Top Artists</TabsTrigger>
-            <TabsTrigger value="tracks">Top Tracks</TabsTrigger>
-          </TabsList>
-          <TabsContent value="artists">
-            <TopArtists />
-          </TabsContent>
-          <TabsContent value="tracks">
-            <TopTracks />
-          </TabsContent>
-        </Tabs>
-      </div>
+      <Statistics />
     </div>
   );
 }

@@ -36,3 +36,8 @@ export function formatTimeAgo(date: Date): string {
 
   return date.toLocaleDateString();
 }
+
+export function truncateText(text: string, maxLength: number) {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength - 3) + "...";
+};

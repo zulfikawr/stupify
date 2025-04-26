@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useSpotify } from "@/components/spotify-provider";
 import type { RecentlyPlayedResponse } from "@/types/spotify";
 import { formatTimeAgo } from "@/lib/utils";
-import { Play, ChevronDown } from "lucide-react";
+import { Play, ChevronDown, Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -62,37 +63,43 @@ export function RecentlyPlayed() {
     setVisibleCount(itemsPerPage);
   };
 
-  // Always render the date picker controls
+  // Render the date picker controls
   const renderDateControls = () => (
-    <div className="flex items-center gap-4 mb-8">
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="bg-zinc-900 text-white hover:bg-zinc-800"
-          >
-            {dateFilter ? format(dateFilter, "PPP") : "Filter by date"}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0 bg-zinc-900 border-zinc-800">
-          <Calendar
-            mode="single"
-            selected={dateFilter}
-            onSelect={setDateFilter}
-            className="bg-zinc-900 text-white"
-          />
-        </PopoverContent>
-      </Popover>
+    <div className="flex items-center justify-between">
+      <h2 className="text-2xl font-bold text-white">Recently Played</h2>
+      <div className="flex items-center gap-2">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className="bg-zinc-900 text-white hover:bg-zinc-800 w-10 h-10"
+              title={dateFilter ? format(dateFilter, "PPP") : "Filter by date"}
+            >
+              <CalendarIcon className="h-5 w-5" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0 bg-zinc-900 border-zinc-800">
+            <Calendar
+              mode="single"
+              selected={dateFilter}
+              onSelect={setDateFilter}
+              className="bg-zinc-900 text-white"
+            />
+          </PopoverContent>
+        </Popover>
 
-      {dateFilter && (
-        <Button
-          variant="ghost"
-          onClick={clearDateFilter}
-          className="text-zinc-400 hover:text-white"
-        >
-          Clear filter
-        </Button>
-      )}
+        {dateFilter && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={clearDateFilter}
+            className="text-zinc-400 hover:text-white"
+          >
+            Clear
+          </Button>
+        )}
+      </div>
     </div>
   );
 
@@ -147,14 +154,20 @@ export function RecentlyPlayed() {
     : getGroupName(new Date(filteredTracks[0].played_at));
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       {renderDateControls()}
 
       <div>
         <h3 className="mb-4 text-xl font-bold text-white">{groupName}</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {filteredTracks.slice(0, visibleCount).map((item) => (
-            <div key={item.played_at} className="group relative">
+            <Link
+              key={item.played_at}
+              href={item.track.external_urls.spotify}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative block"
+            >
               <div className="relative aspect-square overflow-hidden rounded-md bg-zinc-800">
                 <Image
                   src={item.track.album.images[0]?.url || "/placeholder.svg"}
@@ -179,7 +192,7 @@ export function RecentlyPlayed() {
                   {formatTimeAgo(new Date(item.played_at))}
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

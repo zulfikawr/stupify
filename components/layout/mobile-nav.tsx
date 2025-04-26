@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Home, Search, Library } from "lucide-react";
+import { Home, Search, Library, Receipt } from "lucide-react";
 
 export function MobileNav() {
   const { status } = useSession();
@@ -42,6 +42,15 @@ export function MobileNav() {
         >
           <Library className="h-6 w-6" />
           <span className="text-xs mt-1">Library</span>
+        </Link>
+        <Link
+          href="/receipt"
+          className={`flex flex-col items-center justify-center w-full h-full ${
+            pathname === "/receipt" ? "text-white" : "text-zinc-400"
+          }`}
+        >
+          <Receipt className="h-6 w-6" />
+          <span className="text-xs mt-1">Receipt</span>
         </Link>
       </nav>
     </div>
